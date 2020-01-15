@@ -14,7 +14,7 @@
               <th>Ação</th>
             </tr>
           </thead>
-          <% series.forEach((serie) => { %>
+          <% results.data.forEach((serie) => { %>
           <tr>
             <td><a href="/series/info/<%= serie.id %>"><%= serie.name %></a></td>
             <td><span class="badge badge-secondary"><%= labels.filter((label) => label.status === serie.status)[0].name%></span></td>
@@ -22,6 +22,22 @@
           </tr>
           <% }) %>
         </table>
+        Mostrar <a href="/series?page=0&pageSize=1">1</a> <a href="/series?page=0&pageSize=2">2</a> <a href="/series?page=0&pageSize=10">10</a>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <% if (results.pagination.currentPage > 0) { %>
+            <li class="page-item"><a class="page-link" href="/series?page=<%= results.pagination.currentPage-1 %>&pageSize=<%= results.pagination.pageSize %>">Anterior</a></li>
+            <% } %>
+            <% for (let i = 0; i < results.pagination.pages; i++) { %>
+            <li class="page-item <% if(i === results.pagination.currentPage) { %> active <% } %>">
+              <a class="page-link" href="/series?page=<%= i %>&pageSize=<%= results.pagination.pageSize %>"><%= (i+1) %></a>
+            </li>
+            <% } %>
+            <% if(results.pagination.currentPage < (results.pagination.pages - 1)) { %>
+            <li class="page-item"><a class="page-link" href="/series?page=<%= results.pagination.currentPage+1 %>&pageSize=<%= results.pagination.pageSize %>">Próximo</a></li>
+            <% } %>
+          </ul>
+        </nav>
       </div>
     </div>
   </div>
